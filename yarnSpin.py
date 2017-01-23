@@ -47,7 +47,7 @@ try:
         soup = BeautifulSoup(requests.get(url + link).text, 'html.parser')
 
 
-    soup = BeautifulSoup(requests.get("https://www.fanfiction.net/book/Harry-Potter").text, 'html.parser')
+    #soup = BeautifulSoup(requests.get("https://www.fanfiction.net/book/Harry-Potter").text, 'html.parser')
     #https://www.fanfiction.net/book/Harry-Potter/?p=4
     #TODO
     # - find if multi-page, if so, find last page
@@ -57,20 +57,22 @@ try:
         print("Multi page entry")
         last = pageInfo.find_all(hasLast)
         if len(last) > 0:
-            lastPage = pageInfo.find_all("a")[-2]["href"].rsplit("=",1)[1]
+            lastPage = int(pageInfo.find_all("a")[-2]["href"].rsplit("=",1)[1])
         else:
             #TODO only multi page scenario without Last is 2 page, right?
+            print("check: there should only be two pages for this category")
             lastPage = 2
+        newPage = random.randrange(lastPage+1)
+        newPage =  "/?p=" + str(newPage)
 
-
-        link = url + link + "/?p=" + newPage
-
-        pdb.set_trace()
         aList = pageInfo.find_all("a")
         soup = BeautifulSoup(requests.get(url + link + newPage).text, 'html.parser')
     else:
+        newPage = ""
         print("only single page category")
 
+    print(url+link+newPage)
+    pdb.set_trace()
 
 except Exception as e:
     print("Exception encountered: %s" %(e))
