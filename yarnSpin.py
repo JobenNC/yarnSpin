@@ -72,6 +72,25 @@ try:
         print("only single page category")
 
     print(url+link+newPage)
+
+    stories = soup.find_all(class_="stitle")
+    story = stories[random.randrange(len(stories))]['href']
+    soup = BeautifulSoup(requests.get(url + story).text, 'html.parser')
+    print(url + story)
+
+    #TODO:
+    # - check if english
+    # - pull out story text
+
+    isEnglish = soup.find_all(class_="xgray xcontrast_txt")[0].text.find("English")
+    if isEnglish == -1:
+        print("Non english story")
+        exit(0)
+
+    paragraphs = soup.find_all(id="storytext")[0].find_all("p")
+    story = ""
+    for p in paragraphs:
+        story += p.text
     pdb.set_trace()
 
 except Exception as e:
