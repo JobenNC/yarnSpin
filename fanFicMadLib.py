@@ -114,13 +114,6 @@ def getStory():
 
         print("%s names found" %(len(names)))
 
-        #Get replacements from stdin
-        #for i in range(0, len(names)):
-        #    newName = input("Please input name to replace '%s'.  If it's not a real name, just re-enter the same value.: " %(names[i]))
-        #    print ("%s replaceing %s" %(newName, names[i]))
-        #    newStory = story.replace(names[i], newName)
-
-        #print(story)
         return (names, story)
 
     except Exception as e:
@@ -129,4 +122,11 @@ def getStory():
         return getStory()
 
 if __name__ == "__main__":
-    print(getStory())
+    names, story = getStory()
+    print(names)
+    #Get replacements from stdin
+    for i in range(0, len(names)):
+        newName = input("Please input name to replace '%s'.  If it's not a real name, just re-enter the same value.: " %(names[i]))
+        print ("%s replaceing %s" %(newName, names[i]))
+        story = story.replace(names[i], newName)
+    print(story)
