@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 #from remix import remix
 import nltk
 import pdb
+from collections import Counter
 #Create a "proper noun remix" of a story from fanfiction.net
 
 #TODO:
@@ -28,7 +29,8 @@ def hasLast(tag):
 # - pip install requests
 
 def remix(text):
-    names = set()
+    #names = set()
+    names = []
     for sent in nltk.sent_tokenize(text):
         for chunk in nltk.ne_chunk(nltk.pos_tag(nltk.word_tokenize(sent))):
             if hasattr(chunk, 'label'):
@@ -37,8 +39,18 @@ def remix(text):
                     name = []
                     for leaf in chunk.leaves():
                         name.append(leaf[0])
-                    names.add(" ".join(name))
-    return list(names)
+                    #names.add(" ".join(name))
+                    names.append(" ".join(name))
+    #Need to turn my list into a set ordered on item occurance
+    nameCounts= Counter(names)
+    countTuples = []
+    for key, value in nameCounts.items(): print(countTuples.append((key,value)))
+    countTuples.sort(key=lambda x: x[1])
+    names = [x[0] for x in countTuples[::-1]]
+
+    #pdb.set_trace()
+    return names
+    #return list(names)
                     #print(chunk)
             #    print(chunk.node, ' '.join(c[0] for c in chunk.leaves()))
 
